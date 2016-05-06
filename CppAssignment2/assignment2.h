@@ -2,7 +2,6 @@
 
 #include <exception>
 #include <algorithm>
-#include <cinttypes>
 
 //template class referring to VC++ 2015 version STL to statically check if a type is iterable
 // TEMPLATE CLASS Is_iterator
