@@ -3,6 +3,7 @@
 #include <array>
 #include <ostream>
 #include <stdexcept>
+#include <cstdlib>
 
 using namespace std;
 
@@ -339,5 +340,6 @@ int main(int argc, char *argv[])
     cout << myPrime.primeCount() << endl;
     cout << myPrime.expand(1000000) << endl;
 
+    system("PAUSE");
     return 0;
 }
