@@ -156,31 +156,7 @@ class userArray<bool, Allocator> : public userArray<uintptr_t, rebind_alloc<Allo
 
     static const typename userArray::size_type bool_length;
 
-public:
-    userArray()
-    {
-    }
-
-    userArray(typename userArray::size_type count, typename userArray::const_reference value, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
-    {
-        _capacity = static_cast<typename userArray::size_type>(std::floor(count * 1.0 / bool_length));
-        _size = count;
-        _alloc = alloc;
-        _array = _alloc.allocate(_capacity);
-
-        fill_bit(0, count, value);
-    }
-
-    userArray(typename userArray::size_type count, const typename userArray::allocator_type& alloc = Allocator()) : userArray(count, false, alloc)
-    {
-    }
-
-    template <typename Input_iter, class = Is_iterator_t<Input_iter, void>>
-    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
-    {
-
-    }
-
+protected:
     void set_bit(typename userArray::size_type index, typename userArray::const_reference value)
     {
         auto unit = std::imaxdiv(index, bool_length);
@@ -223,6 +199,32 @@ public:
             _array[i] = value ? true_val : false_val;
         }
     }
+
+public:
+    userArray()
+    {
+    }
+
+    userArray(typename userArray::size_type count, typename userArray::const_reference value, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
+    {
+        _capacity = static_cast<typename userArray::size_type>(std::floor(count * 1.0 / bool_length));
+        _size = count;
+        _alloc = alloc;
+        _array = _alloc.allocate(_capacity);
+
+        fill_bit(0, count, value);
+    }
+
+    userArray(typename userArray::size_type count, const typename userArray::allocator_type& alloc = Allocator()) : userArray(count, false, alloc)
+    {
+    }
+
+    template <typename Input_iter, class = Is_iterator_t<Input_iter, void>>
+    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
+    {
+
+    }
+
 
 };
 
