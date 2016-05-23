@@ -220,9 +220,32 @@ public:
     }
 
     template <typename Input_iter, class = Is_iterator_t<Input_iter, void>>
-    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
+    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type()) : userArray(first, last, alloc)
     {
+    }
 
+    userArray(const userArray &other) : userArray(other)
+    {
+    }
+
+    userArray(const userArray &other, const typename userArray::allocator_type& alloc): userArray(other, alloc)
+    {
+    }
+
+    userArray(userArray &&other) : userArray(other)
+    {
+    }
+
+    userArray(userArray &&other, const typename userArray:allocator_type& alloc) : userArray(other, alloc)
+    {
+    }
+
+    userArray(std::initializer_list<T> ilist) : userArray(ilist)
+    {
+    }
+
+    ~userArray()
+    {
     }
 
 
