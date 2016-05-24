@@ -137,7 +137,7 @@ public:
     void swap(userArray& other);
 };
 
-#if 1
+#if false
 template<typename Allocator>
 class userArray<bool, Allocator> : public userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>
 {
