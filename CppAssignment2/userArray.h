@@ -248,6 +248,85 @@ public:
     {
     }
 
+    userArray& operator=(const userArray& other);   //copy operator=
+    userArray& operator=(userArray&& other);        //move operator=
+    userArray& operator=(std::initializer_list<T> ilist);
+
+    userArray& assign(size_type count, const T& value);
+
+    template<typename Input_iter>
+    Is_iterator_t<Input_iter, void> assign(Input_iter first, Input_iter last);
+
+    void assign(std::initializer_list<T> ilist);
+
+    allocator_type get_allocator() const;
+
+    //element access
+    reference at(size_type i);
+    const_reference at(size_type i) const;
+    reference operator[](size_type i);
+    const_reference operator[](size_type i) const;
+    reference front();
+    const_reference front() const;
+    reference back();
+    const_reference back() const;
+    pointer data();
+    const_pointer data() const;
+
+    //count and countif
+    difference_type count(const T& value) const;
+    template<typename UnaryPredicate>
+    difference_type countIF(UnaryPredicate p) const;
+
+    //iterators
+    iterator begin();
+    const_iterator begin() const;
+    const_iterator cbegin() const;
+    iterator end();
+    const_iterator end() const;
+    const_iterator cend() const;
+    reverse_iterator rbegin();
+    const_reverse_iterator rbegin() const;
+    const_reverse_iterator crbegin() const;
+    reverse_iterator rend();
+    const_reverse_iterator rend() const;
+    const_reverse_iterator crend() const;
+
+    //capacity
+    bool empty() const noexcept;
+    size_type size() const noexcept;
+    static size_type max_size() noexcept;
+    void reserve(size_type new_cap);
+    size_type capacity() const;
+    void shrink_to_fit();
+
+    //modifiers
+    void clear() noexcept;
+
+    iterator insert(const_iterator pos, const T& value);
+    iterator insert(const_iterator pos, T&& value);
+    iterator insert(const_iterator pos, size_type count, const T& value);
+
+    template<typename Input_iter>
+    Is_iterator_t<Input_iter, iterator> insert(const_iterator pos, Input_iter first, Input_iter last);
+
+    iterator insert(const_iterator pos, std::initializer_list<T> ilist);
+
+    template<typename... Args>
+    iterator emplace(const_iterator pos, Args&&... args);
+
+    iterator erase(const_iterator pos);
+    iterator erase(const_iterator first, const_iterator last);
+    void push_back(const T& value);
+    void push_back(T&& value);
+
+    template<typename... Args>
+    void emplace_back(Args&&... args);
+
+    void pop_back();
+    void resize(size_type count);
+    void resize(size_type count, const T& value);
+    void swap(userArray& other);
 
 };
 
