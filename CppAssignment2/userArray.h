@@ -220,8 +220,9 @@ public:
     }
 
     template <typename Input_iter, class = Is_iterator_t<Input_iter, void>>
-    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type()) : userArray(first, last, alloc)
+    userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type())
     {
+        // TODO
     }
 
     userArray(const userArray &other) : userArray(other)
@@ -248,7 +249,7 @@ public:
     {
     }
 
-    userArray& operator=(const userArray& other);   //copy operator=
+    userArray& operator=(const userArray& other)   //copy operator=
     userArray& operator=(userArray&& other);        //move operator=
     userArray& operator=(std::initializer_list<T> ilist);
 
