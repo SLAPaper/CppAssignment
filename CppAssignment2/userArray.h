@@ -223,6 +223,9 @@ public:
     template <typename Input_iter, class = Is_iterator_t<Input_iter, void>>
     userArray(Input_iter first, Input_iter last, const typename userArray::allocator_type& alloc = typename userArray::allocator_type()) : _alloc(std::distance(first, last), alloc)
     {
+        for (auto i = first, int j = 0; i != last; ++i, ++j) {
+            set_bit(j, *i);
+        }
     }
 
     userArray(const userArray &other) : userArray(other)
