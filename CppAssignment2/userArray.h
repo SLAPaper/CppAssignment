@@ -228,23 +228,23 @@ public:
         }
     }
 
-    userArray(const userArray &other) : userArray(other)
+    userArray(const userArray &other) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other)
     {
     }
 
-    userArray(const userArray &other, const typename userArray::allocator_type& alloc) : userArray(other, alloc)
+    userArray(const userArray &other, const typename userArray::allocator_type& alloc) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other, alloc)
     {
     }
 
-    userArray(userArray &&other) : userArray(other)
+    userArray(userArray &&other) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other)
     {
     }
 
-    userArray(userArray &&other, const typename userArray:allocator_type& alloc) : userArray(other, alloc)
+    userArray(userArray &&other, const typename userArray:allocator_type& alloc) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other, alloc)
     {
     }
 
-    userArray(std::initializer_list<T> ilist) : userArray(ilist)
+    userArray(std::initializer_list<T> ilist) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(ilist)
     {
     }
 
