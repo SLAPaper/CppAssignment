@@ -207,10 +207,6 @@ protected:
     }
 
 public:
-    userArray()
-    {
-    }
-
     userArray(typename userArray::size_type count, typename userArray::const_reference value, const typename userArray::allocator_type& alloc = typename userArray::allocator_type()) : _allocate(count, alloc)
     {
         fill_bit(0, count, value);
@@ -228,32 +224,10 @@ public:
         }
     }
 
-    userArray(const userArray &other) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other)
+    userArray(std::initializer_list<T> ilist, const Allocator& alloc = Allocator()) : userArray(ilist.begin(), ilist.end(), alloc)
     {
     }
 
-    userArray(const userArray &other, const typename userArray::allocator_type& alloc) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other, alloc)
-    {
-    }
-
-    userArray(userArray &&other) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other)
-    {
-    }
-
-    userArray(userArray &&other, const typename userArray:allocator_type& alloc) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(other, alloc)
-    {
-    }
-
-    userArray(std::initializer_list<T> ilist) : userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>::userArray(ilist)
-    {
-    }
-
-    ~userArray()
-    {
-    }
-
-    userArray& operator=(const userArray& other)   //copy operator=
-        userArray& operator=(userArray&& other);        //move operator=
     userArray& operator=(std::initializer_list<T> ilist);
 
     userArray& assign(size_type count, const T& value);
