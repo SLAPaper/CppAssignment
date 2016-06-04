@@ -60,7 +60,7 @@ public:
     userArray& operator=(userArray&& other);        //move operator=
     userArray& operator=(std::initializer_list<T> ilist);
 
-    userArray& assign(size_type count, const T& value);
+    void assign(size_type count, const T& value);
 
     template<typename Input_iter>
     Is_iterator_t<Input_iter, void> assign(Input_iter first, Input_iter last);
@@ -253,10 +253,21 @@ public:
         return *this;
     }
 
-    userArray& assign(size_type count, const T& value);
+    void assign(size_type count, const bool& value) {
+        clear();
+        _allocate(count);
+        fill_bit(0, count, value);
+    }
 
     template<typename Input_iter>
-    Is_iterator_t<Input_iter, void> assign(Input_iter first, Input_iter last);
+    Is_iterator_t<Input_iter, void> assign(Input_iter first, Input_iter last) {
+        clear();
+        _allocate(std::distance(first, last));
+
+        for (auto i = first, auto j = 0; i != last; ++i, ++j) {
+            set_bit(j, *i);
+        }
+    }
 
     void assign(std::initializer_list<T> ilist);
 
@@ -535,7 +546,7 @@ userArray<T, Allocator>& userArray<T, Allocator>::operator=(std::initializer_lis
 }
 
 template <typename T, typename Allocator>
-userArray<T, Allocator>& userArray<T, Allocator>::assign(size_type count, const T& value)
+void userArray<T, Allocator>::assign(size_type count, const T& value)
 {
     //auto extend
     if (count > _capacity)
@@ -547,7 +558,6 @@ userArray<T, Allocator>& userArray<T, Allocator>::assign(size_type count, const 
     }
     _size = count;
     std::fill_n(_array, count, value);
-    return *this;
 }
 
 template <typename T, typename Allocator>
