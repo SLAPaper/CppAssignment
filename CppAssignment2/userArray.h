@@ -153,8 +153,8 @@ public:
     typedef ptrdiff_t difference_type;
     typedef value_type& reference;
     typedef const value_type& const_reference;
-    typedef bool* pointer;
-    typedef const bool* const_pointer;
+    typedef value_type* pointer;
+    typedef const value_type* const_pointer;
 
     //iterator
     typedef pointer iterator;
@@ -184,11 +184,11 @@ protected:
 
         if (value)
         {
-            _array[unit.quot] |= (1 << (unit.rem - 1));
+            _array[unit.quot] |= (1 << unit.rem);
         }
         else
         {
-            _array[unit.quot] &= ~(1 << (unit.rem - 1));
+            _array[unit.quot] &= ~(1 << unit.rem);
         }
     }
 
@@ -279,12 +279,40 @@ public:
     }
 
     //element access
-    reference at(size_type i);
-    const_reference at(size_type i) const;
-    reference operator[](size_type i);
-    const_reference operator[](size_type i) const;
-    reference front();
-    const_reference front() const;
+    reference at(size_type i) {
+        if (!(i < size()))
+        {
+            throw std::out_of_range("Index out of range");
+        }
+        auto unit = std::imaxdiv(index, bool_length);
+
+        // TODO: cannot return a r_value as reference, build class with operator= and operator bool to replace it
+        return _array[unit.quot] & (1 << unit.rem);
+    }
+
+    const_reference at(size_type i) const {
+        if (!(i < size()))
+        {
+            throw std::out_of_range("Index out of range");
+        }
+        auto unit = std::imaxdiv(index, bool_length);
+        return _array[unit.quot] & (1 << unit.rem);
+    }
+
+    reference operator[](size_type i) {
+        return _array[unit.quot] & (1 << unit.rem);
+    }
+
+    const_reference operator[](size_type i) const {
+        return _array[unit.quot] & (1 << unit.rem);
+    }
+
+    reference front() {
+        return _array[0] & 1;
+    }
+    const_reference front() const {
+        return _array[0] & 1;
+    }
     reference back();
     const_reference back() const;
     pointer data();
