@@ -269,9 +269,14 @@ public:
         }
     }
 
-    void assign(std::initializer_list<T> ilist);
+    void assign(std::initializer_list<T> ilist) {
+        clear();
+        _allocate(ilist.size());
 
-    allocator_type get_allocator() const;
+        for (auto i = ilist.begin(), auto j = 0; i != ilist.end(); ++i, ++j) {
+            set_bit(j, *i)
+        }
+    }
 
     //element access
     reference at(size_type i);
