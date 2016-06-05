@@ -147,13 +147,36 @@ public:
     using userArray::_alloc;
     using userArray::_array;
 
+    class bool_ref {
+        userArray& arr;
+        size_type index;
+
+    public:
+        bool_ref(userArray& arr, size_type index = 0) : arr(arr), index(index) {
+        }
+
+        bool_ref operator=(const bool& value) {
+            arr.set_bit(index, value);
+            return *this;
+        }
+
+        bool_ref operator=(bool&& value) {
+            arr.set_bit(index, value);
+            return *this;
+        }
+
+        bool operator bool() {
+            return arr.at(index);
+        }
+    };
+
     typedef bool value_type;
     typedef Allocator allocator_type;
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
-    typedef value_type& reference;
+    typedef bool_ref& reference;
     typedef const value_type& const_reference;
-    typedef value_type* pointer;
+    typedef bool_ref* pointer;
     typedef const value_type* const_pointer;
 
     //iterator
