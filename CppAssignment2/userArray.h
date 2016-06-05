@@ -151,7 +151,6 @@ public:
         userArray& arr;
         size_type index;
 
-    public:
         bool_ref(userArray& arr, size_type index = 0) : arr(arr), index(index) {
         }
 
@@ -175,13 +174,89 @@ public:
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
     typedef bool_ref& reference;
-    typedef const value_type& const_reference;
-    typedef bool_ref* pointer;
-    typedef const value_type* const_pointer;
+    typedef bool const_reference;
+
+    class const_bool_iter : std::iterator<std::random_access_iterator_tag, bool> {
+        userArray& arr;
+        size_type index;
+
+    public:
+        const_bool_iter(userArray& arr, size_type index = 0) : arr(arr), index(index) {
+        }
+
+        const_bool_iter(const const_bool_iter& other) : arr(other.arr), index(other.index) {
+        }
+
+        const_bool_iter(const_bool_iter&& other) : arr(other.arr), index(other.index) {
+        }
+
+        void swap(const_bool_iter& other) {
+            std::swap(arr, other.arr);
+            std::swap(index, other.index);
+        }
+
+        const bool_ref& operator*() const {
+            return bool_ref(arr, index);
+        }
+
+        const_bool_iter& operator++() {
+            ++index;
+            return *this;
+        }
+
+        const_bool_iter operator++(int) {
+            return const_bool_iter(arr, index++);
+        }
+
+        const_bool_iter& operator--() {
+            --index;
+            return *this;
+        }
+
+        const_bool_iter operator--() {
+            return const_bool_iter(arr, index--);
+        }
+
+        bool operator==(const const_bool_iter& other) const {
+            return arr == other.arr && index == other.index;
+        }
+
+        bool operator!=(const const_bool_iter& other) const {
+            return arr != other.arr || index == other.index;
+        }
+    };
+
+    class bool_iter : public const_bool_iter {
+        using const_bool_iter::const_bool_iter;
+        using const_bool_iter::arr;
+        using const_bool_iter::index;
+
+        bool_ref& operator*() const {
+            return bool_ref(arr, index);
+        }
+
+        bool_iter& operator++() {
+            ++index;
+            return *this;
+        }
+
+        bool_iter operator++(int) {
+            return bool_iter(arr, index++);
+        }
+
+        bool_ref& opreator--() {
+            --index;
+            return *this;
+        }
+
+        bool_ref opreator--(int) {
+            return bool_iter(arr, index--);
+        }
+    };
 
     //iterator
-    typedef pointer iterator;
-    typedef const_pointer const_iterator;
+    typedef bool_iter iterator;
+    typedef const_bool_iter const_iterator;
     typedef std::reverse_iterator<iterator> reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
