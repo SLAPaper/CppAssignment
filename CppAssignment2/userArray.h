@@ -169,7 +169,6 @@ public:
         }
     };
 
-    typedef bool value_type;
     typedef Allocator allocator_type;
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
@@ -266,13 +265,13 @@ private:
     inline void _allocate(typename userArray::size_type count) {
         _capacity = static_cast<typename userArray::size_type>(std::floor(count * 1.0 / bool_length));
         _size = count;
-        _alloc = alloc;
-        _array = _alloc.allocate(_capacity);
     }
 
     inline void _allocate(typename userArray::size_type count, const typename userArray::allocator_type& alloc) {
         _alloc = alloc;
         _allocate(count);
+        _alloc = alloc;
+        _array = _alloc.allocate(_capacity);
     }
 
 protected:
@@ -382,10 +381,8 @@ public:
         {
             throw std::out_of_range("Index out of range");
         }
-        auto unit = std::imaxdiv(index, bool_length);
 
-        // TODO: cannot return a r_value as reference, build class with operator= and operator bool to replace it
-        return _array[unit.quot] & (1 << unit.rem);
+        return bool_ref(*this, i);
     }
 
     const_reference at(size_type i) const {
@@ -398,78 +395,52 @@ public:
     }
 
     reference operator[](size_type i) {
-        return _array[unit.quot] & (1 << unit.rem);
+        return bool_ref(*this, i);
     }
 
     const_reference operator[](size_type i) const {
+        auto unit = std::imaxdiv(index, bool_length);
         return _array[unit.quot] & (1 << unit.rem);
     }
 
     reference front() {
-        return _array[0] & 1;
+        return bool_iter(*this, 0);
     }
     const_reference front() const {
         return _array[0] & 1;
     }
-    reference back();
-    const_reference back() const;
-    pointer data();
-    const_pointer data() const;
+    reference back() {
+        return bool_iter(*this, _size - 1);
+    }
 
-    //count and countif
-    difference_type count(const T& value) const;
-    template<typename UnaryPredicate>
-    difference_type countIF(UnaryPredicate p) const;
+    const_reference back() const {
+        auto unit = std::imaxdiv(_size - 1, bool_length);
+        return _array[unit.quot] & (1 << unit.rem);
+    }
 
     //iterators
-    iterator begin();
-    const_iterator begin() const;
-    const_iterator cbegin() const;
-    iterator end();
-    const_iterator end() const;
-    const_iterator cend() const;
-    reverse_iterator rbegin();
-    const_reverse_iterator rbegin() const;
-    const_reverse_iterator crbegin() const;
-    reverse_iterator rend();
-    const_reverse_iterator rend() const;
-    const_reverse_iterator crend() const;
+    iterator begin() {
+        return bool_iter(*this, 0);
+    }
 
-    //capacity
-    bool empty() const noexcept;
-    size_type size() const noexcept;
-    static size_type max_size() noexcept;
-    void reserve(size_type new_cap);
-    size_type capacity() const;
-    void shrink_to_fit();
+    const_iterator begin() const {
+        return const_bool_iter(*this, 0);
+    }
 
-    //modifiers
-    void clear() noexcept;
+    const_iterator cbegin() const {
+        return const_bool_iter(*this, 0);
+    }
 
-    iterator insert(const_iterator pos, const T& value);
-    iterator insert(const_iterator pos, T&& value);
-    iterator insert(const_iterator pos, size_type count, const T& value);
+    iterator end() {
+        return bool_iter(*this, _size);
+    }
 
-    template<typename Input_iter>
-    Is_iterator_t<Input_iter, iterator> insert(const_iterator pos, Input_iter first, Input_iter last);
-
-    iterator insert(const_iterator pos, std::initializer_list<T> ilist);
-
-    template<typename... Args>
-    iterator emplace(const_iterator pos, Args&&... args);
-
-    iterator erase(const_iterator pos);
-    iterator erase(const_iterator first, const_iterator last);
-    void push_back(const T& value);
-    void push_back(T&& value);
-
-    template<typename... Args>
-    void emplace_back(Args&&... args);
-
-    void pop_back();
-    void resize(size_type count);
-    void resize(size_type count, const T& value);
-    void swap(userArray& other);
+    const_iterator end() const {
+        return const_bool_iter(*this, _size);
+    }
+    const_iterator cend() const {
+        return const_bool_iter(*this, _size);
+    }
 };
 
 template <typename Allocator>
