@@ -137,7 +137,6 @@ public:
     void swap(userArray& other);
 };
 
-#if 1
 template<typename Allocator>
 class userArray<bool, Allocator> : public userArray<uintptr_t, rebind_alloc<Allocator, uintptr_t>>
 {
@@ -164,7 +163,7 @@ public:
             return *this;
         }
 
-        bool operator bool() {
+        operator bool() {
             return arr.at(index);
         }
     };
@@ -176,6 +175,7 @@ public:
     typedef bool const_reference;
 
     class const_bool_iter : std::iterator<std::random_access_iterator_tag, bool> {
+    protected:
         userArray& arr;
         size_type index;
 
@@ -243,12 +243,12 @@ public:
             return bool_iter(arr, index++);
         }
 
-        bool_ref& opreator--() {
+        bool_ref& operator--() {
             --index;
             return *this;
         }
 
-        bool_ref opreator--(int) {
+        bool_ref operator--(int) {
             return bool_iter(arr, index--);
         }
     };
@@ -336,11 +336,11 @@ public:
         }
     }
 
-    userArray(std::initializer_list<T> ilist, const Allocator& alloc = Allocator()) : userArray(ilist.begin(), ilist.end(), alloc)
+    userArray(std::initializer_list<bool> ilist, const Allocator& alloc = Allocator()) : userArray(ilist.begin(), ilist.end(), alloc)
     {
     }
 
-    userArray& operator=(std::initializer_list<T> ilist) {
+    userArray& operator=(std::initializer_list<bool> ilist) {
         clear();
         _allocate(ilist.size());
 
@@ -366,7 +366,7 @@ public:
         }
     }
 
-    void assign(std::initializer_list<T> ilist) {
+    void assign(std::initializer_list<bool> ilist) {
         clear();
         _allocate(ilist.size());
 
@@ -445,8 +445,6 @@ public:
 
 template <typename Allocator>
 const typename userArray<bool, Allocator>::size_type userArray<bool, Allocator>::bool_length = sizeof(uintptr_t) * 8;
-
-#endif
 
 template <typename T, typename Allocator>
 userArray<T, Allocator>::userArray() : userArray(Allocator())
