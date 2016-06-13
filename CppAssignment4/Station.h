@@ -1,16 +1,25 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include <tuple>
-
-using conn_t = std::vector<std::tuple<std::string, int>>; // use a class maybe better
+#include <map>
+#include "Line.h"
 
 class Station {
 public:
-    std::string id;
     std::string name;
-    conn_t connectivity;    // 使用邻接表表示站间关系
+    std::vector<Line*> line;
+    std::map<Station*, size_t> connectivity;
 
-    Station(std::string id, std::string name, conn_t connectivity = conn_t()) : id(id), name(name), connectivity(connectivity) {
+    Station(std::string name, std::map<Station*, size_t> connectivity = std::map<Station*, size_t>()) : name(name), connectivity(connectivity) {
+        line = std::vector<Line*>();
     }
+
+    std::string get_id();
+    std::string get_id(size_t line_index);
+
+    add_neighbor(Station* neighbor, size_t distance);
+
+    remove_neighbor(Station* neighbor);
 };
