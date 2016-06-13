@@ -12,12 +12,9 @@ public:
     std::vector<Line*> line;
     std::map<Station*, size_t> connectivity;
 
-    Station(std::string name, std::map<Station*, size_t> connectivity = std::map<Station*, size_t>()) : name(name), connectivity(connectivity) {
-        line = std::vector<Line*>();
-    }
+    Station(std::string name, std::map<Station*, size_t> connectivity = std::map<Station*, size_t>());
 
-    std::string get_id();
-    std::string get_id(size_t line_index);
+    std::string get_id(size_t line_index = 0) const;
 
     add_neighbor(Station* neighbor, size_t distance);
 
