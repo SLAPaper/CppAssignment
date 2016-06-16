@@ -1,7 +1,35 @@
 #include "Station.h"
 
-Station::Station(std::string name, std::vector<conn_t> connectivity) : name(name), line(std::vector<line_t>()), connectivity(connectivity)
+Station::Station(const std::string & name) : Station(name, std::vector<conn_t>())
 {
+}
+
+Station::Station(std::string && name) : Station(name, std::vector<conn_t>())
+{
+}
+
+Station::Station(const std::string & name, const std::vector<conn_t>& conn_v) : name(name)
+{
+    line = std::vector<line_t>();
+    connectivity = conn_v;
+}
+
+Station::Station(std::string && name, const std::vector<conn_t>& conn_v) : name(name)
+{
+    line = std::vector<line_t>();
+    connectivity = conn_v;
+}
+
+Station::Station(const std::string & name, std::vector<conn_t>&& conn_v) : name(name)
+{
+    line = std::vector<line_t>();
+    connectivity = conn_v;
+}
+
+Station::Station(std::string && name, std::vector<conn_t>&& conn_v) : name(name)
+{
+    line = std::vector<line_t>();
+    connectivity = conn_v;
 }
 
 std::string Station::get_id(size_t line_index) const

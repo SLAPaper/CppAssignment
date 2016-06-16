@@ -32,11 +32,22 @@ public:
     std::vector<line_t> line;
     std::vector<conn_t> connectivity;
 
-    Station(std::string name, std::vector<conn_t> connectivity = std::vector<conn_t>());
+    Station(const std::string& name);
+    Station(std::string&& name);
+
+    Station(const std::string& name, const std::vector<conn_t>& conn_v);
+    Station(std::string&& name, const std::vector<conn_t>& conn_v);
+    Station(const std::string& name, std::vector<conn_t>&& conn_v);
+    Station(std::string&& name, std::vector<conn_t>&& conn_v);
 
     std::string get_id(size_t line_index = 0) const;
 
-    add_neighbor(Station* neighbor, size_t distance);
+    std::vector<conn_t>::iterator add_neighbor(Station* neighbor, size_t distance);
+    std::vector<conn_t>::const_iterator add_neighbor(Station* neighbor, size_t distance);
 
-    remove_neighbor(Station* neighbor);
+    std::vector<conn_t>::iterator update_neighbor(Station* neighbor, size_t distance);
+    std::vector<conn_t>::const_iterator update_neighbor(Station* neighbor, size_t distance);
+
+    std::vector<conn_t>::iterator remove_neighbor(Station* neighbor);
+    std::vector<conn_t>::const_iterator remove_neighbor(Station* neighbor);
 };
