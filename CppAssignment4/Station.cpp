@@ -41,8 +41,13 @@ std::string Station::get_id(size_t line_index) const
 
 std::vector<conn_t>::iterator Station::add_neighbor(Station * neighbor, size_t distance)
 {
-    connectivity.push_back(conn_t(neighbor, distance));
+    connectivity.emplace_back(neighbor, distance);
     return --connectivity.end();
+}
+
+std::vector<conn_t>::iterator Station::add_neighbor(std::initializer_list<conn_t> ilist)
+{
+    return connectivity.insert(connectivity.end(), ilist);
 }
 
 std::vector<conn_t>::iterator Station::update_neighbor(Station * neighbor, size_t distance)

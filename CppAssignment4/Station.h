@@ -16,6 +16,25 @@ struct line_t
 
     line_t(Line * line, size_t i) :line(line), index_in_line(i) {
     }
+
+    line_t & operator=(const line_t & other) {
+        line = other.line;
+        index_in_line = other.index_in_line;
+
+        return *this;
+    }
+
+    line_t & operator=(line_t && other) {
+        line = other.line;
+        index_in_line = other.index_in_line;
+
+        return *this;
+    }
+
+    void swap(line_t & other) {
+        std::swap(line, other.line);
+        std::swap(index_in_line, other.index_in_line);
+    }
 };
 
 struct conn_t {
@@ -43,6 +62,7 @@ public:
     std::string get_id(size_t line_index = 0) const;
 
     std::vector<conn_t>::iterator add_neighbor(Station * neighbor, size_t distance);
+    std::vector<conn_t>::iterator add_neighbor(std::initializer_list<conn_t> ilist);
 
     std::vector<conn_t>::iterator update_neighbor(Station * neighbor, size_t distance);
 
