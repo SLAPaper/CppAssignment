@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Station.h"
+#include <algorithm>
 
 class Line {
 public:
@@ -14,10 +15,11 @@ public:
     Line(std::string && id, const std::string & name);
     Line(std::string && id, std::string && name);
 
-    void assign_station(std::vector<Station *> slist);
+    void assign_station(const std::vector<Station *> & slist);
+    void assign_station(std::vector<Station *> && slist);
     void assign_station(std::initializer_list<Station *> ilist);
 
-    void insert_station(size_t index, const Station & station);
+    void insert_station(size_t index, Station & station);
     void insert_station(size_t index, std::initializer_list<Station *> ilist);
 
     void delete_station(size_t index);
@@ -25,3 +27,11 @@ public:
 
     void reorder_station(size_t from_index, size_t to_index);
 };
+
+static inline std::vector<line_t>::iterator in(Line & line, std::vector<line_t> & lines) {
+    return std::find_if(lines.begin(), lines.end(), [&line](const line_t & l) {return l.line == &line; });
+}
+
+static inline std::vector<line_t>::const_iterator in(const Line & line, const std::vector<line_t> & lines) {
+    return std::find_if(lines.begin(), lines.end(), [&line](const line_t & l) {return l.line == &line; });
+}
