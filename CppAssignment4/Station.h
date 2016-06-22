@@ -37,6 +37,14 @@ struct line_t
     }
 };
 
+static inline bool operator==(const line_t & l1, const line_t & l2) {
+    return l1.line == l2.line;
+}
+
+static inline bool operator!=(const line_t & l1, const line_t & l2) {
+    return l1.line != l2.line;
+}
+
 struct conn_t {
     Station * station;
     size_t distance_to_station;
@@ -44,6 +52,14 @@ struct conn_t {
     conn_t(Station * station, size_t d) : station(station), distance_to_station(d) {
     }
 };
+
+static inline bool operator==(const conn_t & c1, const conn_t & c2) {
+    return c1.station == c2.station;
+}
+
+static inline bool operator!=(const conn_t & c1, const conn_t & c2) {
+    return c1.station != c2.station;
+}
 
 class Station {
 public:
