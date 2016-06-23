@@ -64,7 +64,7 @@ static inline bool operator!=(const conn_t & c1, const conn_t & c2) {
 class Station {
 public:
     std::string name;
-    std::vector<line_t> line;
+    line_t line;
     std::vector<conn_t> connectivity;
 
     Station(const std::string & name);
@@ -75,7 +75,7 @@ public:
     Station(const std::string & name, std::vector<conn_t> && conn_v);
     Station(std::string && name, std::vector<conn_t> && conn_v);
 
-    std::string get_id(size_t line_index = 0) const;
+    std::string get_id() const;
 
     std::vector<conn_t>::iterator add_neighbor(Station * neighbor, size_t distance);
     std::vector<conn_t>::iterator add_neighbor(std::initializer_list<conn_t> ilist);
