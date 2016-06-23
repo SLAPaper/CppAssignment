@@ -2,9 +2,7 @@
 #include <string>
 #include <vector>
 #include "Station.h"
-#include <algorithm>
-#include "unicode\unistr.h"
-
+#include "unicode/unistr.h"
 
 class Line {
 public:

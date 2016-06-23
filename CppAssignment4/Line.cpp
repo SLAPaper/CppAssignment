@@ -1,4 +1,5 @@
 #include "Line.h"
+#include <algorithm>
 
 Line::Line(const std::string & id, const icu::UnicodeString & name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
 {
