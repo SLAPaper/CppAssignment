@@ -1,21 +1,23 @@
 #include "Station.h"
+#include <string>
+#include <sstream>
+#include <ios>
+#include <iomanip>
 
-Station::Station(const std::string & name) : name(name)
+Station::Station(const icu::UnicodeString & name) : Station(name, true, true)
+{
+}
+
+Station::Station(icu::UnicodeString && name) : Station(name, true, true)
+{
+}
+
+Station::Station(const icu::UnicodeString & name, bool is_up, bool is_down) : name(name), is_up(is_up), is_down(is_down)
 {
     line = line_t();
 }
 
-Station::Station(std::string && name) : name(name)
-{
-    line = line_t();
-}
-
-Station::Station(const std::string & name, bool is_up, bool is_down) : name(name), is_up(is_up), is_down(is_down)
-{
-    line = line_t();
-}
-
-Station::Station(std::string && name, bool is_up, bool is_down) : name(name), is_up(is_up), is_down(is_down)
+Station::Station(icu::UnicodeString && name, bool is_up, bool is_down) : name(name), is_up(is_up), is_down(is_down)
 {
     line = line_t();
 }
