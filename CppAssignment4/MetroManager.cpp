@@ -1,6 +1,6 @@
 #include "MetroManager.h"
 
-Line& MetroManager::get_line_by_id(const std::string& id)
+boost::optional<Line &> MetroManager::get_line_by_id(const std::string& id)
 {
     for (auto i = lines.begin(); i != lines.end(); ++i)
     {
@@ -9,9 +9,17 @@ Line& MetroManager::get_line_by_id(const std::string& id)
             return *i;
         }
     }
-    // TODO: what should return if not found?
+    return boost::none;
 }
 
-Line& MetroManager::get_line_by_id(std::string&& id)
+boost::optional<Line &> MetroManager::get_line_by_id(std::string&& id)
 {
+    for (auto i = lines.begin(); i != lines.end(); ++i)
+    {
+        if (i->line_id == id)
+        {
+            return *i;
+        }
+    }
+    return boost::none;
 }

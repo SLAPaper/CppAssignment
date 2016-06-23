@@ -1,5 +1,7 @@
 #pragma once
 
+#include "boost/optional.hpp"
+
 #include "Station.h"
 #include "Line.h"
 
@@ -41,8 +43,8 @@ public:
     std::vector<Line> lines;    // 地铁线路
     std::vector<conn_t> trans_stations; // 换乘站列表
 
-    Line & get_line_by_id(const std::string & id);
-    Line & get_line_by_id(std::string && id);
+    boost::optional<Line &> get_line_by_id(const std::string & id);
+    boost::optional<Line &> get_line_by_id(std::string && id);
 
     Station & get_station_by_id(const std::string & id);
     Station & get_station_by_id(std::string && id);
