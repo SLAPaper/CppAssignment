@@ -3,35 +3,34 @@
 #include <vector>
 #include "Station.h"
 #include <algorithm>
+#include "unicode\unistr.h"
+
 
 class Line {
 public:
-    std::string line_id;
-    std::string line_name;
-    std::vector<Station *> station_list;
+    std::string line_id;    // 线路标识符（两位数字，或任意英文字母）
+    icu::UnicodeString line_name;   // 线路名称
+    bool is_circle;  // 是否环线
+    std::vector<Station> station_list;  // 线路站点列表
 
-    Line(const std::string & id, const std::string & name);
-    Line(const std::string & id, std::string && name);
-    Line(std::string && id, const std::string & name);
-    Line(std::string && id, std::string && name);
+    Line(const std::string & id, const icu::UnicodeString & name, bool is_circle = false);
+    Line(const std::string & id, icu::UnicodeString && name, bool is_circle = false);
+    Line(std::string && id, const icu::UnicodeString & name, bool is_circle = false);
+    Line(std::string && id, icu::UnicodeString && name, bool is_circle = false);
 
-    void assign_station(const std::vector<Station *> & slist);
-    void assign_station(std::vector<Station *> && slist);
-    void assign_station(std::initializer_list<Station *> ilist);
+    void assign_station(const std::vector<Station> & slist);
+    void assign_station(std::vector<Station> && slist);
+    void assign_station(std::initializer_list<Station> ilist);
 
     void insert_station(size_t index, Station & station);
-    void insert_station(size_t index, std::initializer_list<Station *> ilist);
+    void insert_station(size_t index, std::initializer_list<Station> ilist);
 
     void delete_station(size_t index);
     void delete_station(size_t begin_index, size_t end_index);
 
     void reorder_station(size_t from_index, size_t to_index);
+
+    void build_station_list();
+
+    void clear();
 };
-
-static inline std::vector<line_t>::iterator in(Line & line, std::vector<line_t> & lines) {
-    return std::find_if(lines.begin(), lines.end(), [&line](const line_t & l) {return l.line == &line; });
-}
-
-static inline std::vector<line_t>::const_iterator in(const Line & line, const std::vector<line_t> & lines) {
-    return std::find_if(lines.begin(), lines.end(), [&line](const line_t & l) {return l.line == &line; });
-}
