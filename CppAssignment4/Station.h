@@ -11,29 +11,35 @@
 
 struct line_t
 {
-    Line * line;
-    size_t index_in_line;
+    Line * line;    // 所属线路
+    size_t index;   // 在线路中的序号
 
-    line_t(Line * line, size_t i) :line(line), index_in_line(i) {
+    line_t() {
+        line = nullptr;
+        index = 0;
+    }
+
+    line_t(Line * line, size_t i) :line(line) {
+        index = i;
     }
 
     line_t & operator=(const line_t & other) {
         line = other.line;
-        index_in_line = other.index_in_line;
+        index = other.index;
 
         return *this;
     }
 
     line_t & operator=(line_t && other) {
         line = other.line;
-        index_in_line = other.index_in_line;
+        index = other.index;
 
         return *this;
     }
 
     void swap(line_t & other) {
         std::swap(line, other.line);
-        std::swap(index_in_line, other.index_in_line);
+        std::swap(index, other.index);
     }
 };
 
@@ -46,10 +52,15 @@ static inline bool operator!=(const line_t & l1, const line_t & l2) {
 }
 
 struct conn_t {
-    Station * station;
-    size_t distance_to_station;
+    Station * station;  // 相联站点
+    size_t distance;    // 站间距
 
-    conn_t(Station * station, size_t d) : station(station), distance_to_station(d) {
+    conn_t() {
+        station = nullptr;
+        distance = 0;
+    }
+
+    conn_t(Station * station, size_t d) : station(station), distance(d) {
     }
 };
 
@@ -63,26 +74,15 @@ static inline bool operator!=(const conn_t & c1, const conn_t & c2) {
 
 class Station {
 public:
-    std::string name;
-    line_t line;
-    std::vector<conn_t> connectivity;
+    std::string name;   // 站点名称
+    line_t line;    // 所属线路相关信息
+    bool is_up;  // 是否上行站点
+    bool is_down;   // 是否下行站点
 
     Station(const std::string & name);
     Station(std::string && name);
-
-    Station(const std::string & name, const std::vector<conn_t> & conn_v);
-    Station(std::string && name, const std::vector<conn_t> & conn_v);
-    Station(const std::string & name, std::vector<conn_t> && conn_v);
-    Station(std::string && name, std::vector<conn_t> && conn_v);
+    Station(const std::string & name, bool is_up, bool is_down);
+    Station(std::string && name, bool is_up, bool is_down);
 
     std::string get_id() const;
-
-    std::vector<conn_t>::iterator add_neighbor(Station * neighbor, size_t distance);
-    std::vector<conn_t>::iterator add_neighbor(std::initializer_list<conn_t> ilist);
-
-    std::vector<conn_t>::iterator update_neighbor(Station * neighbor, size_t distance);
-
-    std::vector<conn_t>::iterator update_or_add_neighbor(Station * neighbor, size_t distance);
-
-    std::vector<conn_t>::iterator remove_neighbor(Station * neighbor);
 };
