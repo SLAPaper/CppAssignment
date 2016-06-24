@@ -46,8 +46,8 @@ public:
     boost::optional<Line &> get_line_by_id(const std::string & id);
     boost::optional<Line &> get_line_by_id(std::string && id);
 
-    Station & get_station_by_id(const std::string & id);
-    Station & get_station_by_id(std::string && id);
+    boost::optional<Station &> get_station_by_id(const std::string & id);
+    boost::optional<Station &> get_station_by_id(std::string && id);
 
     std::vector<Station *> find_path(const Station & s1, const Station & s2);
 };
