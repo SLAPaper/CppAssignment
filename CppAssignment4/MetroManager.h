@@ -1,53 +1,131 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "boost/optional.hpp"
 
 #include "Station.h"
 #include "Line.h"
 
+/*! \brief 用于记录到某个地铁站点之间的相联的结构体
+ *
+ * 分别记录目标站点和两站之间的间距。
+ */
 struct conn_t {
-    Station * station1; // 相联站点1
-    Station * station2; // 相联站点2
-    size_t distance;    // 站间距
-    enum directional { unidirectional, bidirectional } direction; // 单向还是双向
+    Station * station; //!< 相联站点1
+    size_t distance;    //!< 站间距
 
+    /*! \brief 默认构造函数
+     *
+     */
     conn_t() {
-        station1 = nullptr;
-        station2 = nullptr;
+        station = nullptr;
         distance = 0;
-        direction = bidirectional;
     }
 
-    conn_t(Station * s1, Station * s2, size_t d, directional direct = bidirectional) {
-        station1 = s1;
-        station2 = s2;
+    /*! \brief 完全构造函数
+     *
+     */
+    conn_t(Station * s1, Station * s2, size_t d) {
+        station = s1;
         distance = d;
-        direction = direct;
+    }
+
+    /*! \brief 拷贝构造函数
+     *
+     */
+    conn_t(const conn_t & other)
+    {
+        station = other.station;
+        distance = other.distance;
+    }
+
+    /*! \brief 移动构造函数
+     *
+     */
+    conn_t(conn_t && other)
+    {
+        station = std::move(other.station);
+        distance = std::move(other.distance);
+    }
+
+    /*! \brief 拷贝赋值函数
+     *
+     */
+    conn_t & operator=(const conn_t & other) {
+        station = other.station;
+        distance = other.distance;
+
+        return *this;
+    }
+
+    /*! \brief 移动赋值函数
+     *
+     */
+    conn_t & operator=(conn_t && other)
+    {
+        station = std::move(other.station);
+        distance = std::move(other.distance);
+
+        return *this;
     }
 };
 
+/*! \brief 相等比较函数
+ *
+ */
 static bool operator==(const conn_t & c1, const conn_t & c2) {
-    auto test1 = c1.station1 == c2.station1 && c1.station2 == c2.station2;
-    auto test2 = c1.station1 == c2.station2 && c1.station2 == c2.station1;
-    return test1 || test2;
+    return c1.station == c2.station;
 }
 
+/*! \brief 不等比较函数
+ *
+ */
 static bool operator!=(const conn_t & c1, const conn_t & c2) {
-    auto test1 = c1.station1 != c2.station1 || c1.station2 != c2.station2;
-    auto test2 = c1.station1 != c2.station2 || c1.station2 != c2.station1;
-    return test1 && test2;
+    return c1.station != c2.station;
 }
 
+/*! \brief 管理整个地铁网络的类
+ *
+ */
 class MetroManager {
 public:
-    std::vector<Line> lines;    // 地铁线路
-    std::vector<conn_t> trans_stations; // 换乘站列表
+    std::vector<Line> lines;    //!< 地铁线路列表
+    std::unordered_map<Station *, std::vector<conn_t>> station_distances; //!< 站间距列表
 
+    MetroManager() : MetroManager(std::vector<Line>(), std::unordered_map<Station *, std::vector<conn_t>>())
+    {
+    }
+
+    MetroManager(std::vector<Line> lines) : MetroManager(lines, std::unordered_map<Station *, std::vector<conn_t>>())
+    {
+    }
+
+    MetroManager(std::vector<Line> lines, std::unordered_map<Station *, std::vector<conn_t>> trans_stations) :lines(lines), station_distances(trans_stations)
+    {
+    }
+
+    /*! \brief 从 id string 获取地铁线路
+     *
+     */
     boost::optional<Line &> get_line_by_id(const std::string & id);
+    /*! \brief 从 id string 获取地铁线路
+     *
+     */
     boost::optional<Line &> get_line_by_id(std::string && id);
 
+    /*! \brief 从 id string 获取地铁站点
+     *
+     */
     boost::optional<Station &> get_station_by_id(const std::string & id);
+    /*! \brief 从 id string 获取地铁站点
+     *
+     */
     boost::optional<Station &> get_station_by_id(std::string && id);
 
-    std::vector<Station *> find_path(const Station & s1, const Station & s2);
+    /*! \brief 计算两个地铁站点间的最短路径
+     *
+     * 使用 Dijkstra Algorithm
+     */
+    const std::vector<Station *> & find_path(Station & s1, Station & s2);
 };
