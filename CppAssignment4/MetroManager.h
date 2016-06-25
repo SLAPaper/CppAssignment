@@ -127,5 +127,10 @@ public:
      *
      * 使用 Dijkstra Algorithm
      */
-    const std::vector<Station *> & find_path(Station & s1, Station & s2);
+    std::vector<Station *> find_path(Station & s1, Station & s2);
+
+    /*! \brief 刷新全部地铁线路的站点列表
+     *
+     */
+    void refresh_lines();
 };

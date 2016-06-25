@@ -118,10 +118,11 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
         else
             return boost::none;
     }
+    return boost::none;
 }
 // ReSharper restore CppRedundantElseKeywordInsideCompoundStatement
 
-const std::vector<Station *> & MetroManager::find_path(Station& s1, Station& s2)
+std::vector<Station *> MetroManager::find_path(Station& s1, Station& s2)
 {
     auto node_set = std::unordered_map<Station *, std::tuple<size_t, Station *>>();
     auto calculated_nodes = std::unordered_map<Station *, std::tuple<size_t, Station *>>();
@@ -131,7 +132,7 @@ const std::vector<Station *> & MetroManager::find_path(Station& s1, Station& s2)
 
     while (!node_set.empty())
     {
-        auto i = std::min_element(node_set.begin(), node_set.end(), [](decltype(node_set)::value_type x) -> size_t { return std::get<0>(x.second); });
+        auto i = std::min_element(node_set.begin(), node_set.end(), [](decltype(node_set)::const_reference a, decltype(node_set)::const_reference b) -> size_t { return std::get<0>(a.second) < std::get<0>(b.second); });
         auto s = *i;
         node_set.erase(i);
         calculated_nodes[s.first] = s.second;
@@ -167,4 +168,12 @@ const std::vector<Station *> & MetroManager::find_path(Station& s1, Station& s2)
     }
 
     return result;
+}
+
+void MetroManager::refresh_lines()
+{
+    for (auto l : lines)
+    {
+        l.build_station_list();
+    }
 }
