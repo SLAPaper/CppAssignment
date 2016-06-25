@@ -43,7 +43,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
             {
                 return line->station_list.at(index);
             }
-            catch (const std::out_of_range & e)
+            catch (const std::out_of_range &)
             {
                 return boost::none;
             }
@@ -66,7 +66,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
                 {
                     return line->station_list.at(index);
                 }
-                catch (const std::out_of_range & e)
+                catch (const std::out_of_range &)
                 {
                     return boost::none;
                 }
@@ -88,7 +88,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
             {
                 return line->station_list.at(index);
             }
-            catch (const std::out_of_range & e)
+            catch (const std::out_of_range &)
             {
                 return boost::none;
             }
@@ -109,7 +109,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
                 {
                     return line->station_list.at(index);
                 }
-                catch (const std::out_of_range & e)
+                catch (const std::out_of_range &)
                 {
                     return boost::none;
                 }
