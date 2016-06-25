@@ -38,7 +38,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
         auto line = get_line_by_id(id.substr(0, 2));
         if (line)
         {
-            auto index = std::stoull(id.substr(2));
+            auto index = std::stoull(id.substr(2)) - 1;
             try
             {
                 return line->station_list.at(index);
@@ -49,19 +49,17 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
             }
         }
         else
-        {
             return boost::none;
-        }
     }
     else
     {
         auto i = id.find_last_not_of("0123456789");
         if (i != std::string::npos)
         {
-            auto line = get_line_by_id(id.substr(0, i));
+            auto line = get_line_by_id(id.substr(0, i + 1));
             if (line)
             {
-                auto index = std::stoull(id.substr(i));
+                auto index = std::stoull(id.substr(i + 1)) - 1;
                 try
                 {
                     return line->station_list.at(index);
@@ -72,8 +70,10 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
                 }
             }
         }
-        return boost::none;
+        else
+            return boost::none;
     }
+    return boost::none;
 }
 
 boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
