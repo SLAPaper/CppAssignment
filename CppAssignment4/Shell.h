@@ -10,7 +10,7 @@
 class Shell
 {
 public:
-    typedef std::map<std::string, std::function<int(const std::vector<std::string> &)>> command_type;
+    typedef std::map<std::string, std::function<int(Shell &, const std::vector<std::string> &)>> command_type;
 
     std::string prefix;
 
@@ -22,5 +22,5 @@ public:
     {
     }
 
-    int run() const;
+    int run();
 };

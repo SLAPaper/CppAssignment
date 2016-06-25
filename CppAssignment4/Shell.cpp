@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-int Shell::run() const
+int Shell::run()
 {
     while (true)
     {
@@ -22,7 +22,7 @@ int Shell::run() const
 
         if (commands.find(args[0]) != commands.end())
         {
-            commands.at(args[0])(decltype(args)(++args.begin(), args.end()));
+            commands.at(args[0])(*this, decltype(args)(++args.begin(), args.end()));
         }
         else
         {
