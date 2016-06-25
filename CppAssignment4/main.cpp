@@ -88,35 +88,41 @@ auto mm = MetroManager({
 int main(int argc, char* argv[]) {
     initialization();
 
-    //std::cout << "Hello World!" << std::endl;
-    //for (auto l : mm.lines)
-    //{
-    //    std::cout << l.line_id << "\t|\t" << l.line_name << "\t|\t" << l.is_circle << std::endl;
-    //    for (auto s : l.station_list)
-    //    {
-    //        std::cout << "\t" << s.name << "\t|\t" << s.get_id() << std::endl;
-    //    }
-    //    std::cout << std::endl;
-    //}
-
-    //for (auto d : mm.station_distances)
-    //{
-    //    for (auto s : d.second)
-    //    {
-    //        if (s.distance > 0)
-    //        {
-    //            std::cout << d.first->name << "\t" << s.station->name << "\t" << s.distance << std::endl;
-    //        }
-    //    }
-    //}
-    auto r = mm.find_path(mm.get_station_by_id("0405").value(), mm.get_station_by_id("0204").value());
-    for (auto i = r.rbegin(), stop = --r.rend(); i != r.rend(); ++i)
+    if (argc < 2)   // shell mode
     {
-        std::cout << (*i)->name << "(" << (*i)->line.line->line_name << ")";
-        if (i != stop)
-            std::cout << "->";
+        // TODO
     }
-    std::cout << std::endl;
+    else if (argc == 3)
+    {
+        auto s1 = mm.get_station_by_id(argv[1]);
+        if (s1 == boost::none)
+        {
+            std::cout << "站点 " << argv[1] << " 不存在，请检查输入。" << std::endl;
+            std::system("PAUSE");
+            return 0;
+        }
+        auto s2 = mm.get_station_by_id(argv[2]);
+        if (s2 == boost::none)
+        {
+            std::cout << "站点 " << argv[2] << " 不存在，请检查输入。" << std::endl;
+            std::system("PAUSE");
+            return 0;
+        }
+        std::cout << "从 " << s1.value().name << " 到 " << s2.value().name << " 的最短路径为：" << std::endl;
+        auto r = mm.find_path(s1.value(), s2.value());
+        for (auto i = r.rbegin(); i != r.rend(); ++i)
+        {
+            std::cout << (*i)->name << "(" << (*i)->line.line->line_name << ")";
+            if (i != --r.rend())
+                std::cout << " -> ";
+        }
+        std::cout << std::endl;
+    }
+    else    // command mode
+    {
+        // TODO
+    }
+
     std::system("PAUSE");
     return 0;
 }
