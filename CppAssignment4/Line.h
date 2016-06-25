@@ -4,6 +4,8 @@
 #include "Station.h"
 #include "unicode/unistr.h"
 
+class Station;
+
 class Line {
 public:
     std::string line_id;    // 线路标识符（两位数字，或任意英文字母）
@@ -15,6 +17,9 @@ public:
     Line(const std::string & id, icu::UnicodeString && name, bool is_circle = false);
     Line(std::string && id, const icu::UnicodeString & name, bool is_circle = false);
     Line(std::string && id, icu::UnicodeString && name, bool is_circle = false);
+    Line(const std::string & id, const icu::UnicodeString & name, bool is_circle, const std::vector<Station> & station_list);
+    Line(std::string && id, icu::UnicodeString && name, bool is_circle, std::vector<Station> && station_list);
+    Line(const std::string & id, const icu::UnicodeString & name, bool is_circle, std::initializer_list<Station> & station_list);
 
     void assign_station(const std::vector<Station> & slist);
     void assign_station(std::vector<Station> && slist);
