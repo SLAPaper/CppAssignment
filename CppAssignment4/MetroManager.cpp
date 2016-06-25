@@ -148,14 +148,14 @@ std::vector<Station *> MetroManager::find_path(Station& s1, Station& s2)
             {
                 continue;
             }
-            auto new_dist = neighbor.distance;
+
+            auto new_dist = neighbor.distance + std::get<0>(calculated_nodes[s.first]);
             if (node_set.find(neighbor.station) == node_set.end())  // not exist, insert dist
             {
                 node_set[neighbor.station] = { new_dist, s.first };
             }
             else
             {
-                new_dist += std::get<0>(calculated_nodes[s.first]);
                 if (new_dist < std::get<0>(node_set[neighbor.station])) // found a shorter path to neighbor.station
                 {
                     node_set[neighbor.station] = { new_dist, s.first };
