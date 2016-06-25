@@ -1,27 +1,27 @@
 #include "Line.h"
 #include <algorithm>
 
-Line::Line(const std::string & id, const icu::UnicodeString & name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
+Line::Line(const std::string & id, const std::string & name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
 {
     station_list = std::vector<Station>();
 }
 
-Line::Line(const std::string & id, icu::UnicodeString && name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
+Line::Line(const std::string & id, std::string && name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
 {
     station_list = std::vector<Station>();
 }
 
-Line::Line(std::string && id, const icu::UnicodeString & name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
+Line::Line(std::string && id, const std::string & name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
 {
     station_list = std::vector<Station>();
 }
 
-Line::Line(std::string && id, icu::UnicodeString && name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
+Line::Line(std::string && id, std::string && name, bool is_circle) : line_id(id), line_name(name), is_circle(is_circle)
 {
     station_list = std::vector<Station>();
 }
 
-Line::Line(const std::string& id, const icu::UnicodeString& name, bool is_circle, const std::vector<Station>& station_list)
+Line::Line(const std::string& id, const std::string& name, bool is_circle, const std::vector<Station>& station_list)
 {
     line_id = id;
     line_name = name;
@@ -29,7 +29,7 @@ Line::Line(const std::string& id, const icu::UnicodeString& name, bool is_circle
     this->station_list = station_list;
 }
 
-Line::Line(std::string&& id, icu::UnicodeString&& name, bool is_circle, std::vector<Station>&& station_list)
+Line::Line(std::string&& id, std::string&& name, bool is_circle, std::vector<Station>&& station_list)
 {
     line_id = id;
     line_name = name;
@@ -37,7 +37,7 @@ Line::Line(std::string&& id, icu::UnicodeString&& name, bool is_circle, std::vec
     this->station_list = station_list;
 }
 
-Line::Line(const std::string& id, const icu::UnicodeString& name, bool is_circle, std::initializer_list<Station>& station_list)
+Line::Line(const std::string& id, const std::string& name, bool is_circle, std::initializer_list<Station>& station_list)
 {
     line_id = id;
     line_name = name;

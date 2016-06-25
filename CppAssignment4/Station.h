@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Line.h"
-#include "unicode/unistr.h"
 
 class Line;
 
@@ -61,15 +60,15 @@ static inline bool operator!=(const line_t & l1, const line_t & l2) {
 
 class Station {
 public:
-    icu::UnicodeString name;   // 站点名称
+    std::string name;   // 站点名称
     line_t line;    // 所属线路相关信息
     bool is_up;  // 是否上行站点
     bool is_down;   // 是否下行站点
 
-    Station(const icu::UnicodeString & name);
-    Station(icu::UnicodeString && name);
-    Station(const icu::UnicodeString & name, bool is_up, bool is_down);
-    Station(icu::UnicodeString && name, bool is_up, bool is_down);
+    Station(const std::string & name);
+    Station(std::string && name);
+    Station(const std::string & name, bool is_up, bool is_down);
+    Station(std::string && name, bool is_up, bool is_down);
 
     Station(const Station & other);
     Station(Station && other);
