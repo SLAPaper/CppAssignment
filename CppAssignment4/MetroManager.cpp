@@ -124,23 +124,46 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
 const std::vector<Station *> & MetroManager::find_path(Station& s1, Station& s2)
 {
     auto node_set = std::unordered_map<Station *, std::tuple<size_t, Station *>>();
+    auto calculated_nodes = std::unordered_map<Station *, std::tuple<size_t, Station *>>();
     auto result = std::vector<Station *>();
-
-    for (const auto & sl : station_distances)
-    {
-        node_set[sl.first] = { 0, nullptr };
-        for (auto s : sl.second)
-        {
-            node_set[s.station] = { 0, nullptr };
-        }
-    }
 
     node_set[&s1] = { 0, nullptr };
 
     while (!node_set.empty())
     {
-        // TODO: complete Dijkstra
-        auto s = std::min_element(node_set.begin(), node_set.end(), []() {});
+        auto i = std::min_element(node_set.begin(), node_set.end(), [](decltype(node_set)::value_type x) -> size_t { return std::get<0>(x.second); });
+        auto s = *i;
+        node_set.erase(i);
+        calculated_nodes[s.first] = s.second;
+
+        if (s.first == &s2) // shortest path to s2 found
+        {
+            break;
+        }
+
+        for (const auto & neighbor : station_distances[s.first])
+        {
+            auto new_dist = neighbor.distance;
+            if (node_set.find(neighbor.station) == node_set.end())  // not exist, insert dist
+            {
+                node_set[neighbor.station] = { new_dist, s.first };
+            }
+            else
+            {
+                new_dist += std::get<0>(node_set[s.first]);
+                if (new_dist < std::get<0>(node_set[neighbor.station])) // found a shorter path to neighbor.station
+                {
+                    node_set[neighbor.station] = { new_dist, s.first };
+                }
+            }
+        }
+    }
+
+    auto p = &s2;
+    while (calculated_nodes.find(p) != calculated_nodes.end())
+    {
+        result.emplace_back(p);
+        p = std::get<1>(calculated_nodes[p]);
     }
 
     return result;
