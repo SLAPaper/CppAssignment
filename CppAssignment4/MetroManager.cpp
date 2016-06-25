@@ -83,7 +83,7 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
         auto line = get_line_by_id(id.substr(0, 2));
         if (line)
         {
-            auto index = std::stoull(id.substr(2));
+            auto index = std::stoull(id.substr(2)) - 1;
             try
             {
                 return line->station_list.at(index);
@@ -101,10 +101,10 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
         auto i = id.find_last_not_of("0123456789");
         if (i != std::string::npos)
         {
-            auto line = get_line_by_id(id.substr(0, i));
+            auto line = get_line_by_id(id.substr(0, i + 1));
             if (line)
             {
-                auto index = std::stoull(id.substr(i));
+                auto index = std::stoull(id.substr(i + 1)) - 1;
                 try
                 {
                     return line->station_list.at(index);
@@ -144,6 +144,10 @@ std::vector<Station *> MetroManager::find_path(Station& s1, Station& s2)
 
         for (const auto & neighbor : station_distances[s.first])
         {
+            if (calculated_nodes.find(neighbor.station) != calculated_nodes.end())  // calculated, skip
+            {
+                continue;
+            }
             auto new_dist = neighbor.distance;
             if (node_set.find(neighbor.station) == node_set.end())  // not exist, insert dist
             {
@@ -151,7 +155,7 @@ std::vector<Station *> MetroManager::find_path(Station& s1, Station& s2)
             }
             else
             {
-                new_dist += std::get<0>(node_set[s.first]);
+                new_dist += std::get<0>(calculated_nodes[s.first]);
                 if (new_dist < std::get<0>(node_set[neighbor.station])) // found a shorter path to neighbor.station
                 {
                     node_set[neighbor.station] = { new_dist, s.first };

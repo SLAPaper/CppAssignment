@@ -26,8 +26,8 @@ struct conn_t {
     /*! \brief 完全构造函数
      *
      */
-    conn_t(Station * s1, Station * s2, size_t d) {
-        station = s1;
+    conn_t(Station * s, size_t d) {
+        station = s;
         distance = d;
     }
 
