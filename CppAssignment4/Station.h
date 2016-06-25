@@ -3,6 +3,8 @@
 #include "Line.h"
 #include "unicode/unistr.h"
 
+class Line;
+
 struct line_t
 {
     Line * line;    // ËùÊôÏßÂ·
@@ -15,6 +17,18 @@ struct line_t
 
     line_t(Line * line, size_t i) :line(line) {
         index = i;
+    }
+
+    line_t(const line_t & other)
+    {
+        line = other.line;
+        index = other.index;
+    }
+
+    line_t(line_t && other)
+    {
+        line = other.line;
+        index = other.index;
     }
 
     line_t & operator=(const line_t & other) {
@@ -56,6 +70,11 @@ public:
     Station(icu::UnicodeString && name);
     Station(const icu::UnicodeString & name, bool is_up, bool is_down);
     Station(icu::UnicodeString && name, bool is_up, bool is_down);
+
+    Station(const Station & other);
+    Station(Station && other);
+    Station & operator=(const Station & other);
+    Station & operator=(Station && other);
 
     std::string get_id() const;
 };
