@@ -1,4 +1,7 @@
 #include "initializer.h"
+#include "MetroManager.h"
+#include "Station.h"
+#include "Line.h"
 
 extern MetroManager mm;
 
@@ -905,6 +908,45 @@ inline void initialize_distances()
     mm.station_distances[&mm.get_station_by_id("14w06").value()].emplace_back(&mm.get_station_by_id("14w05").value(), 1579);
     mm.station_distances[&mm.get_station_by_id("14w06").value()].emplace_back(&mm.get_station_by_id("14w07").value(), 845);
     mm.station_distances[&mm.get_station_by_id("14w07").value()].emplace_back(&mm.get_station_by_id("14w06").value(), 845);
+
+    mm.station_distances[&mm.get_station_by_id("1501").value()].emplace_back(&mm.get_station_by_id("1502").value(), 1144);
+    mm.station_distances[&mm.get_station_by_id("1502").value()].emplace_back(&mm.get_station_by_id("1501").value(), 1144);
+    mm.station_distances[&mm.get_station_by_id("1502").value()].emplace_back(&mm.get_station_by_id("1503").value(), 1337);
+    mm.station_distances[&mm.get_station_by_id("1503").value()].emplace_back(&mm.get_station_by_id("1502").value(), 1337);
+    mm.station_distances[&mm.get_station_by_id("1503").value()].emplace_back(&mm.get_station_by_id("1504").value(), 1999);
+    mm.station_distances[&mm.get_station_by_id("1504").value()].emplace_back(&mm.get_station_by_id("1503").value(), 1999);
+    mm.station_distances[&mm.get_station_by_id("1504").value()].emplace_back(&mm.get_station_by_id("1505").value(), 1368);
+    mm.station_distances[&mm.get_station_by_id("1505").value()].emplace_back(&mm.get_station_by_id("1504").value(), 1368);
+    mm.station_distances[&mm.get_station_by_id("1505").value()].emplace_back(&mm.get_station_by_id("1506").value(), 938);
+    mm.station_distances[&mm.get_station_by_id("1506").value()].emplace_back(&mm.get_station_by_id("1505").value(), 938);
+    mm.station_distances[&mm.get_station_by_id("1506").value()].emplace_back(&mm.get_station_by_id("1507").value(), 1087);
+    mm.station_distances[&mm.get_station_by_id("1507").value()].emplace_back(&mm.get_station_by_id("1506").value(), 1087);
+    mm.station_distances[&mm.get_station_by_id("1507").value()].emplace_back(&mm.get_station_by_id("1508").value(), 2071);
+    mm.station_distances[&mm.get_station_by_id("1508").value()].emplace_back(&mm.get_station_by_id("1507").value(), 2071);
+    mm.station_distances[&mm.get_station_by_id("1508").value()].emplace_back(&mm.get_station_by_id("1509").value(), 1758);
+    mm.station_distances[&mm.get_station_by_id("1509").value()].emplace_back(&mm.get_station_by_id("1508").value(), 1758);
+    mm.station_distances[&mm.get_station_by_id("1509").value()].emplace_back(&mm.get_station_by_id("1510").value(), 1652);
+    mm.station_distances[&mm.get_station_by_id("1510").value()].emplace_back(&mm.get_station_by_id("1509").value(), 1652);
+    mm.station_distances[&mm.get_station_by_id("1510").value()].emplace_back(&mm.get_station_by_id("1511").value(), 2295);
+    mm.station_distances[&mm.get_station_by_id("1511").value()].emplace_back(&mm.get_station_by_id("1510").value(), 2295);
+    mm.station_distances[&mm.get_station_by_id("1511").value()].emplace_back(&mm.get_station_by_id("1512").value(), 2008);
+    mm.station_distances[&mm.get_station_by_id("1512").value()].emplace_back(&mm.get_station_by_id("1511").value(), 2008);
+    mm.station_distances[&mm.get_station_by_id("1512").value()].emplace_back(&mm.get_station_by_id("1513").value(), 3309);
+    mm.station_distances[&mm.get_station_by_id("1513").value()].emplace_back(&mm.get_station_by_id("1512").value(), 3309);
+    mm.station_distances[&mm.get_station_by_id("1513").value()].emplace_back(&mm.get_station_by_id("1514").value(), 3386);
+    mm.station_distances[&mm.get_station_by_id("1514").value()].emplace_back(&mm.get_station_by_id("1513").value(), 3386);
+    mm.station_distances[&mm.get_station_by_id("1514").value()].emplace_back(&mm.get_station_by_id("1515").value(), 1615);
+    mm.station_distances[&mm.get_station_by_id("1515").value()].emplace_back(&mm.get_station_by_id("1514").value(), 1615);
+    mm.station_distances[&mm.get_station_by_id("1515").value()].emplace_back(&mm.get_station_by_id("1516").value(), 3354);
+    mm.station_distances[&mm.get_station_by_id("1516").value()].emplace_back(&mm.get_station_by_id("1515").value(), 3354);
+    mm.station_distances[&mm.get_station_by_id("1516").value()].emplace_back(&mm.get_station_by_id("1517").value(), 4576);
+    mm.station_distances[&mm.get_station_by_id("1517").value()].emplace_back(&mm.get_station_by_id("1516").value(), 4576);
+    mm.station_distances[&mm.get_station_by_id("1517").value()].emplace_back(&mm.get_station_by_id("1518").value(), 2712);
+    mm.station_distances[&mm.get_station_by_id("1518").value()].emplace_back(&mm.get_station_by_id("1517").value(), 2712);
+    mm.station_distances[&mm.get_station_by_id("1518").value()].emplace_back(&mm.get_station_by_id("1519").value(), 1331);
+    mm.station_distances[&mm.get_station_by_id("1519").value()].emplace_back(&mm.get_station_by_id("1518").value(), 1331);
+    mm.station_distances[&mm.get_station_by_id("1519").value()].emplace_back(&mm.get_station_by_id("1520").value(), 2441);
+    mm.station_distances[&mm.get_station_by_id("1520").value()].emplace_back(&mm.get_station_by_id("1519").value(), 2441);
 
     mm.station_distances[&mm.get_station_by_id("air01").value()].emplace_back(&mm.get_station_by_id("air02").value(), 2999);
     mm.station_distances[&mm.get_station_by_id("air02").value()].emplace_back(&mm.get_station_by_id("air01").value(), 2999);
