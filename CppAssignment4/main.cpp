@@ -147,8 +147,8 @@ Shell::command_type base_shell = {
                     },
                     {
                         "list",
-                        [&l](Shell & shell, std::vector<std::string> args) -> int {
-                            for (const auto & s : l.value().station_list)
+                        [l](Shell & shell, std::vector<std::string> args) -> int {
+                            for (const auto & s : l->station_list)
                             {
                                 std::cout << std::setfill('0') << std::setw(2) << s.line.index + 1 << "\t" << s.name << std::endl;
                             }
@@ -157,28 +157,28 @@ Shell::command_type base_shell = {
                     },
                     {
                         "show",
-                        [&l](Shell & shell, std::vector<std::string> args) -> int {
+                        [l](Shell & shell, std::vector<std::string> args) -> int {
                             std::cout
-                                << "线路名：\t" << l.value().line_name << std::endl
-                                << "线路编号：\t" << l.value().line_id << std::endl
-                                << "是否环线：\t" << std::boolalpha << l.value().is_circle << std::endl
-                                << "站点个数：\t" << l.value().station_list.size() << std::endl;
+                                << "线路名：\t" << l->line_name << std::endl
+                                << "线路编号：\t" << l->line_id << std::endl
+                                << "是否环线：\t" << std::boolalpha << l->is_circle << std::endl
+                                << "站点个数：\t" << l->station_list.size() << std::endl;
                             return 0;
                         }
                     },
                     {
                         "rename",
-                        [&l](Shell & shell, std::vector<std::string> args) -> int {
+                        [l](Shell & shell, std::vector<std::string> args) -> int {
                             if (args.empty())
                             {
-                                l.value().line_name = "";
+                                l->line_name = "";
                                 shell.prefix = "线路 ";
                                 std::cout << "线路名已清空。" << std::endl;
                             }
                             else
                             {
-                                l.value().line_name = args[0];
-                                shell.prefix = "线路 " + l.value().line_name + "(" + l.value().line_id + ")";
+                                l->line_name = args[0];
+                                shell.prefix = "线路 " + l->line_name + "(" + l->line_id + ")";
                                 std::cout << "线路名已更改为 \"" << args[0] << "\"。" << std::endl;
                             }
                             return 0;
@@ -186,7 +186,7 @@ Shell::command_type base_shell = {
                     },
                     {
                         "use",
-                        [&l](Shell & shell, std::vector<std::string> args) -> int {
+                        [l](Shell & shell, std::vector<std::string> args) -> int {
                             if (args.size() < 1)
                             {
                                 std::cout << "没有输入站点，请重试。" << std::endl;
@@ -194,13 +194,13 @@ Shell::command_type base_shell = {
                             else
                             {
                                 auto index = std::stoull(args[0]) - 1;
-                                if (index >= l.value().station_list.size())
+                                if (index >= l->station_list.size())
                                 {
                                     std::cout << "没有这个站点，请重试。" << std::endl;
                                 }
                                 else
                                 {
-                                    auto & s = l.value().station_list[index];
+                                    auto & s = l->station_list[index];
                                     Shell::command_type station_shell = {
                                         // TODO
                                         {
@@ -257,7 +257,7 @@ Shell::command_type base_shell = {
                         }
                     }
                 };
-                auto sh = Shell(list_shell, "线路 " + l.value().line_name + "(" + l.value().line_id + ")");
+                auto sh = Shell(list_shell, "线路 " + l->line_name + "(" + l->line_id + ")");
                 sh.run();
             }
             else
@@ -316,16 +316,19 @@ int main(int argc, char* argv[]) {
         else if (argv1 == "line")
         {
             auto l = mm.get_line_by_id(argv[2]);
-            if (l == boost::none)
+            if (l)
+            {
+                std::cout << "线路 " << l->line_name << "(" << l->line_id << ") 的站点有：" << std::endl;
+                for (auto s : l->station_list)
+                {
+                    std::cout << s.get_id() << "\t" << s.name << std::endl;
+                }
+            }
+            else
             {
                 std::cout << "线路 \"" << argv[2] << "\" 不存在，请检查输入。" << std::endl;
                 std::system("PAUSE");
                 return 0;
-            }
-            std::cout << "线路 " << l.value().line_name << "(" << l.value().line_id << ") 的站点有：" << std::endl;
-            for (auto s : l.value().station_list)
-            {
-                std::cout << s.get_id() << "\t" << s.name << std::endl;
             }
         }
         else

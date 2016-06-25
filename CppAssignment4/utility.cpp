@@ -16,8 +16,8 @@ void print_path(const std::string & str1, const std::string & str2)
         auto s2 = mm.get_station_by_id(str2);
         if (s2)
         {
-            std::cout << "从 " << s1.value().name << " 到 " << s2.value().name << " 的最短路径为：" << std::endl;
-            auto r = mm.find_path(s1.value(), s2.value());
+            std::cout << "从 " << s1->name << " 到 " << s2->name << " 的最短路径为：" << std::endl;
+            auto r = mm.find_path(*s1, *s2);
             for (auto i = r.rbegin(); i != r.rend(); ++i)
             {
                 std::cout << (*i)->name << "(" << (*i)->line.line->line_name << ")";

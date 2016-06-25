@@ -2,8 +2,6 @@
 
 #include <unordered_map>
 
-#include "boost/optional.hpp"
-
 #include "Station.h"
 #include "Line.h"
 
@@ -108,20 +106,20 @@ public:
     /*! \brief 从 id string 获取地铁线路
      *
      */
-    boost::optional<Line &> get_line_by_id(const std::string & id);
+    Line * get_line_by_id(const std::string & id);
     /*! \brief 从 id string 获取地铁线路
      *
      */
-    boost::optional<Line &> get_line_by_id(std::string && id);
+    Line * get_line_by_id(std::string && id);
 
     /*! \brief 从 id string 获取地铁站点
      *
      */
-    boost::optional<Station &> get_station_by_id(const std::string & id);
+    Station * get_station_by_id(const std::string & id);
     /*! \brief 从 id string 获取地铁站点
      *
      */
-    boost::optional<Station &> get_station_by_id(std::string && id);
+    Station * get_station_by_id(std::string && id);
 
     /*! \brief 计算两个地铁站点间的最短路径
      *

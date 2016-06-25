@@ -6,32 +6,32 @@
 #include <tuple>
 #include <queue>
 
-boost::optional<Line &> MetroManager::get_line_by_id(const std::string& id)
+Line *MetroManager::get_line_by_id(const std::string& id)
 {
     for (auto i = lines.begin(); i != lines.end(); ++i)
     {
         if (i->line_id == id)
         {
-            return *i;
+            return &*i;
         }
     }
-    return boost::none;
+    return nullptr;
 }
 
-boost::optional<Line &> MetroManager::get_line_by_id(std::string&& id)
+Line *MetroManager::get_line_by_id(std::string&& id)
 {
     for (auto i = lines.begin(); i != lines.end(); ++i)
     {
         if (i->line_id == id)
         {
-            return *i;
+            return &*i;
         }
     }
-    return boost::none;
+    return nullptr;
 }
 
 // ReSharper disable CppRedundantElseKeywordInsideCompoundStatement
-boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id)
+Station * MetroManager::get_station_by_id(const std::string& id)
 {
     if (id.length() == 4)
     {
@@ -41,15 +41,15 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
             auto index = std::stoull(id.substr(2)) - 1;
             try
             {
-                return line->station_list.at(index);
+                return &line->station_list.at(index);
             }
             catch (const std::out_of_range &)
             {
-                return boost::none;
+                return nullptr;
             }
         }
         else
-            return boost::none;
+            return nullptr;
     }
     else
     {
@@ -62,21 +62,21 @@ boost::optional<Station &> MetroManager::get_station_by_id(const std::string& id
                 auto index = std::stoull(id.substr(i + 1)) - 1;
                 try
                 {
-                    return line->station_list.at(index);
+                    return &line->station_list.at(index);
                 }
                 catch (const std::out_of_range &)
                 {
-                    return boost::none;
+                    return nullptr;
                 }
             }
         }
         else
-            return boost::none;
+            return nullptr;
     }
-    return boost::none;
+    return nullptr;
 }
 
-boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
+Station * MetroManager::get_station_by_id(std::string&& id)
 {
     if (id.length() == 4)
     {
@@ -86,15 +86,15 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
             auto index = std::stoull(id.substr(2)) - 1;
             try
             {
-                return line->station_list.at(index);
+                return &line->station_list.at(index);
             }
             catch (const std::out_of_range &)
             {
-                return boost::none;
+                return nullptr;
             }
         }
         else
-            return boost::none;
+            return nullptr;
     }
     else
     {
@@ -107,18 +107,18 @@ boost::optional<Station &> MetroManager::get_station_by_id(std::string&& id)
                 auto index = std::stoull(id.substr(i + 1)) - 1;
                 try
                 {
-                    return line->station_list.at(index);
+                    return &line->station_list.at(index);
                 }
                 catch (const std::out_of_range &)
                 {
-                    return boost::none;
+                    return nullptr;
                 }
             }
         }
         else
-            return boost::none;
+            return nullptr;
     }
-    return boost::none;
+    return nullptr;
 }
 // ReSharper restore CppRedundantElseKeywordInsideCompoundStatement
 
