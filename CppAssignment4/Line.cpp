@@ -102,7 +102,7 @@ void Line::reorder_station(size_t from_index, size_t to_index)
 
 void Line::build_station_list()
 {
-    for (auto i = 0; i < station_list.size(); ++i) {
+    for (size_t i = 0; i < station_list.size(); ++i) {
         station_list[i].line.line = this;
         station_list[i].line.index = i;
     }
