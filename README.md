@@ -10,7 +10,9 @@ re-implementation of `std::vector` and `std::list`
 
 ## CppAssignment3
 
-a container-like prime table
+a container-like prime table.
+
+It is required that all the instances of prime table class should share the same common "actual" prime table. Each instance is just like a generator or somehow `range` in Python, which will only iterate on given number of prime numbers.
 
 ## CppAssignment4
 
