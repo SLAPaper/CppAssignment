@@ -4,6 +4,8 @@ some C++ lesson assignments
 
 Actually, the assignment #2 is my favourite. I spent the most time on it and gained much about inheritance, iterator, allocator, overloading, template, and so on.
 
+The assignment #3 is a little bit too easy and fuzzy. The teacher provided a very ambiguous assignment requirements, and I just do it in the way I like.
+
 ## CppAssignment2
 
 re-implementation of `std::vector` and `std::list`
