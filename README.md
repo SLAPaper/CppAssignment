@@ -6,6 +6,8 @@ Actually, the assignment #2 is my favourite. I spent the most time on it and gai
 
 The assignment #3 is a little bit too easy and fuzzy. The teacher provided a very ambiguous assignment requirements, and I just do it in the way I like.
 
+The assignment #4 is the most boring one. In fact, the teacher provided a bunch of topics to choose from, and, here comes the ridiculous point, it's required that the total lines of the homework shall exceed 800 lines. I wonder why it isn't "shorter is better" or "faster is better" when there is a given topic.
+
 ## CppAssignment2
 
 re-implementation of `std::vector` and `std::list`
