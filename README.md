@@ -25,3 +25,5 @@ The common prime table will auto expand when newly construct instance cover a ne
 ## CppAssignment4
 
 a small program that uses Dijkstra's Algorithm to find the shortest path between two stations in the metro system of Beijing.
+
+Here there are a critical design failure due to the topic requirements, a huge design failure in order to match the topic requirements, an enourmous feature lack caused by my procrastination, and a small "oops" error of using pointer other than id or iterator as key of map.
